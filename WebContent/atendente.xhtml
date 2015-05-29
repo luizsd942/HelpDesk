@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+      
+    <h:head>
+        <title>Página do Atendente</title>
+        <script type="text/javascript">
+          function startChat{
+        	  window.open.('chat.jsf','atendenteChatWindow',
+        			  'width=700, height=500,tollbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
+          }
+
+		</script>
+    </h:head>
+    
+    <h:body>
+    	<br/>
+		
+		<h:form>
+		   
+		   <p:panel header="Login do Atendente" rendered="#{not atendenteMB.autenticado}">
+		     <h:outputLabel for="txtNome" value="Login:"/>
+		     <br/>
+		     
+		     <h:inputText id="txtNome" value="#{atendenteMB.atendente.login}"/>
+		     <br/>
+		     
+		     <h:outputLabel for="txtSenha" value="Senha:"/>
+		     <br/>
+		     
+		     <h:inputSecret id="txtSenha" value="#{atendenteMB.atendente.senha}"/>
+		     <br/>
+		     <h:commandButton action="#{atendenteMB.signIn}" value="Entrar"/>
+		     <br/>
+		     		   
+		   </p:panel>
+		   
+		   <p:panel header="Home do atendente" rendered="#{atendenteMB.autenticado}">
+		     <h:outputText value="Seja bem vindo(a), "/>
+		     <strong><h:outputText value="#{atendenteMB.atendente.login}"/></strong>!&nbsp;
+		     <h:commandButton action="#{atendenteMB.signOut}" value="Sair"/>
+		     <br/>
+		     <br/>
+		     
+		     <p:poll id="myPoll" interval="2" update="pnlDoAtende"/>
+		     <p:outputPanel id="pnlDoAtende">
+		        <h:outputFormat value="Usuarios na fila de espera: {0}">
+		           <f:param value="#{localizadorMB.gerenciador.waitingUsers}"/>
+		        </h:outputFormat>
+		        <br/>
+		     	<br/>
+		        <p:commandButton value="Atender próximo usuário"
+		             action="#{atendenteMB.startChat()}"
+		             disabled="#{localizadorMB.gerenciador.waitingUsers eq 0}"
+		             oncomplete="startChat();"/>
+		     </p:outputPanel>
+		   </p:panel>
+		</h:form>
+    </h:body>
+</html>
