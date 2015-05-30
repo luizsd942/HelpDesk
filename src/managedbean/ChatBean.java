@@ -102,8 +102,8 @@ public class ChatBean implements Serializable{
 				int ultimaMensagem = getUltimaMensagem();
 				Mensagem mensagem = getChat().getMensagem(ultimaMensagem);
 				if(mensagem != null){
-					context.addCallbackParam("new", true);
-					context.addCallbackParam("mensagem", mensagem);
+					context.addCallbackParam("newMessage", true);
+					context.addCallbackParam("newMessage", mensagem);
 					setUltimaMensagem(ultimaMensagem + 1);
 				}
 			}
