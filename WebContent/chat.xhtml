@@ -41,29 +41,30 @@
                    <h:panelGrid columns="2">
                       <p:inputTextarea id="txaMessage" rows="4" cols="50" counter="ctrMessage"
                       	maxlength="100" value="#{chatMB.mensagem}"
-                      	counterTemplate="(0)caracteres restantes." autoResize="false"/>
+                      	counterTemplate="{0} caracteres restantes." autoResize="false"/>
                       	
                       	<p:panelGrid id="pnlButtons" columns="1">
                       	
-                      	   <p:commandButton value="Enviar" style="width:100px"
-                      	     action="#{chatMB.enviarMensagem}" update="txaMessage"/>
+                      	   <p:commandButton value="Enviar"
+                      	     actionListener="#{chatMB.enviarMensagem}" style="width: 100px"
+                      	     update="txaMessage" ajax="false"/>
                       	     
                       	   <p:commandButton value="Sair" style="width:100px"
                       	     oncomplete="window.close();"
-                      	     action="#{chatMB.close}" update="pnlChat"/>
+                      	     actionListener="#{chatMB.close}" update="pnlChat" ajax="false"/>
                       	</p:panelGrid>
                         
                         <h:outputText id="ctrMessage"/>
                    </h:panelGrid>
                 
                 <script type="text/javascript">
-                	timer = setInterval("recuperarMensagem()",500);
+                	timer = setInterval("recuperarMensagens()",500);
                 </script>
                 
                 </p:outputPanel>
                 
-                <p:remoteCommand name="recuperarMensagem"
-                actionListener="#{chatMB.ultimaMensagem}"
+                <p:remoteCommand name="recuperarMensagens" 
+                actionListener="#{chatMB.recuperarUltimaMensagem}"
                  oncomplete="updateMessages(xhr, status, args);"/>
                 
                 <p:remoteCommand name="closeChat" update="pnlChat" />
